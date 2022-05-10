@@ -5,6 +5,7 @@ export default class StudentTile extends LightningElement {
         Name: 'Jayadev Senapathi Kota',
         PhotoUrl: '/services/images/photo/003B0FakePictId',
     };
+
     @api isSelected = false;
 
     get tileSelected() {
