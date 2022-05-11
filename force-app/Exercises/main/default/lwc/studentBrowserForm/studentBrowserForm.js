@@ -1,9 +1,17 @@
 import { LightningElement, wire } from 'lwc';
 import getInstructors from '@salesforce/apex/StudentBrowserForm.getInstructors';
 import getDeliveriesByInstructor from '@salesforce/apex/StudentBrowserForm.getDeliveriesByInstructor';
-export default class StudentBrowserForm extends LightningElement {
+import { NavigationMixin } from 'lightning/navigation';
+import { encodeDefaultFieldValues } from 'lightning/pageReferenceUtils';
+export default class StudentBrowserForm extends NavigationMixin(LightningElement) {
     instructors = [];
     error;
+
+    selectedInstructorId = '';
+    deliveries = [];
+    selectedDeliveryId = '';
+
+    isButtonDisabled = true;
 
     @wire(getInstructors)
     wired_getInstructors({ error, data}) {
@@ -24,15 +32,10 @@ export default class StudentBrowserForm extends LightningElement {
         }
     }
 
-    selectedInstructorId = '';
-    deliveries = [];
-    selectedDeliveryId = '';
-
     @wire(getDeliveriesByInstructor, { instructorId: '$selectedInstructorId' })
     wired_getDeliveriesByInstructor({ error, data }) {
         this.deliveries = [];
         if (data && data.length) {
-            console.log('data found ' + data);
             this.deliveries = data.map(delivery => ({
                 value: delivery.Id,
                 label: `${delivery.Start_Date__c} ${delivery.Location__c} ${delivery.Attendee_Count__c} students`
@@ -44,17 +47,14 @@ export default class StudentBrowserForm extends LightningElement {
             });
     
         } else if (error) {
-            console.log('data not found ' + error);
             this.error = error;
         }
     }
 
     onInstructorChange(event) {
-        console.log('selectedDeliveryId = ' + this.selectedDeliveryId);
         this.selectedDeliveryId = '';
         this.selectedInstructorId = event.target.value;
-        console.log('event.target.value = ' + event.target.value);
-        console.log('this.deliveries = ' + this.deliveries);
+        this.isButtonDisabled = (this.selectedInstructorId === '');
         this.notifyParent();
     }
 
@@ -71,5 +71,21 @@ export default class StudentBrowserForm extends LightningElement {
             }
         });
         this.dispatchEvent(evt);
+    }
+
+    onAddNewDelivery() {
+        const pageInfo = {
+            type: "standard__objectPage",
+            attributes: {
+                objectApiName: "Course_Delivery__c",
+                actionName: "new"
+            },
+            state: {
+                defaultFieldValues: encodeDefaultFieldValues({
+                    Instructor__c: this.selectedInstructorId
+                })
+            }
+        };
+        this[NavigationMixin.Navigate](pageInfo);
     }
 }
