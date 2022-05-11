@@ -8,7 +8,11 @@
                 medium-device-size="4" 
                 large-device-size="3" 
                 key={student.Id}>
-                <c-student-tile is-selected student={student}></c-student-tile>
+                <c-student-tile 
+                    selected-student-id={selectedStudentId} 
+                    student={student}
+                    onstudentselected={handleStudentSelected}>
+                </c-student-tile>
             </lightning-layout-item>
         </template>
     </lightning-layout>
