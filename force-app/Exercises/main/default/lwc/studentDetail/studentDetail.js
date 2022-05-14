@@ -3,7 +3,9 @@ import { LightningElement, wire } from 'lwc';
 // TODO #1: import the reduceErrors function from the c/ldsUtils component.
 
 // TODO #2: import the getRecord, getFieldValue, and getFieldDisplayValue functions from lightning/uiRecordApi.
-import { getRecord, getFieldValue, getFieldDisplayValue } from 'lightning/uiRecordApi';
+import { getRecord } from 'lightning/uiRecordApi';
+import Utils from 'c/utils';
+
 
 // TODO #3: We've imported the name field and placed it into an array for you.
 //          To prepare for Lab 1, import the Description, Email, and Phone fields and add them to the array.
@@ -47,22 +49,22 @@ export default class StudentDetail extends LightningElement {
 	}
 		
 	get name() {
-		return this._getDisplayValue(this.wiredStudent.data, FIELD_Name);
+		return Utils.getDisplayValue(this.wiredStudent.data, FIELD_Name);
 	}
 
     //TODO #6: We provided a getter for the name field. 
 	// 		   To prepare for Lab 1, create getters for the description, phone, and email fields.
 
     get description() {
-		return this._getDisplayValue(this.wiredStudent.data, FIELD_Description);
+		return Utils.getDisplayValue(this.wiredStudent.data, FIELD_Description);
 	}
 
     get email() {
-		return this._getDisplayValue(this.wiredStudent.data, FIELD_Email);
+		return Utils.getDisplayValue(this.wiredStudent.data, FIELD_Email);
 	}
 
     get phone() {
-		return this._getDisplayValue(this.wiredStudent.data, FIELD_Phone);
+		return Utils.getDisplayValue(this.wiredStudent.data, FIELD_Phone);
 	}
 	
 	//TODO #7: Review the errorMessages getter, the cardTitle getter, and the _getDisplayValue function below.
@@ -79,10 +81,6 @@ export default class StudentDetail extends LightningElement {
 			title = "Something went wrong..."
 		}
 		return title;
-	}
-	
-	_getDisplayValue(data, field) {
-		return getFieldDisplayValue(data, field) ? getFieldDisplayValue(data, field) : getFieldValue(data, field);
 	}
 
 	handleStudentChange(message) {

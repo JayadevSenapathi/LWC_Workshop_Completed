@@ -3,6 +3,7 @@ import { getRecord, getFieldValue, getFieldDisplayValue } from 'lightning/uiReco
 import FIELD_Course_Delivery__City from '@salesforce/schema/Course_Delivery__c.City__c';
 import FIELD_Course_Delivery__Country from '@salesforce/schema/Course_Delivery__c.Country__c';
 const fields = [FIELD_Course_Delivery__City, FIELD_Course_Delivery__Country];
+import Utils from 'c/utils';
 
 export default class DeliveryDetailMap extends LightningElement {
 	@api recordId;
@@ -16,17 +17,13 @@ export default class DeliveryDetailMap extends LightningElement {
 			this.error=error;
 		} else if (data) {
 			// Get Map data
-			const City = this._getDisplayValue(data, FIELD_Course_Delivery__City);
-			const Country = this._getDisplayValue(data, FIELD_Course_Delivery__Country);
+			const City = Utils.getDisplayValue(data, FIELD_Course_Delivery__City);
+			const Country = Utils.getDisplayValue(data, FIELD_Course_Delivery__Country);
 			// Transform location data into map markers
 			this.mapMarkers = [{
 				location: { City, Country },
 				description: `Coords: ${City}, ${Country}`
 			}];
 		}
-	}
-
-	_getDisplayValue(data, field) {
-		return getFieldDisplayValue(data, field) ? getFieldDisplayValue(data, field) : getFieldValue(data, field);
 	}
 }
