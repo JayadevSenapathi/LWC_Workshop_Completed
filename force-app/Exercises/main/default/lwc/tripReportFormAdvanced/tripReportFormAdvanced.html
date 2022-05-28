@@ -1,0 +1,59 @@
+<template>
+	<lightning-card title={formTitle}>
+		<form class="slds-form_stacked slds-var-p-around_medium" >
+			
+			<!-- form controls go here-->
+            <lightning-combobox
+                name="instructor"
+                label="Select Instructor"
+                variant="label-hidden"
+                placeholder="Select an Instructor"
+                options={instructors}
+                value={instructorId}
+                onchange={onInstructorChange}>
+            </lightning-combobox>
+            <lightning-input
+                type="text"
+                name="locationName"
+                label="Location Name"
+                onchange={onLocationNameChange}
+                value={locationName}>
+            </lightning-input>
+            <lightning-input
+                type="date"
+                name="dateVisited"
+                label="Date Visited"
+                onchange={onDateVisitedChange}
+                value={dateVisited}>
+            </lightning-input>
+            <lightning-radio-group
+                type="button"
+                name="reviewType"
+                label="Review of:"
+                options={reviewTypes}
+                onchange={onReviewTypeChange}
+                value={reviewType}>
+            </lightning-radio-group>
+            <lightning-slider
+                label="Quality Rating"
+                step="1"
+                min="1"
+                max="5"
+                title="Higher score indicates higher quality"
+                value={rating}
+                onchange={onRatingChange}>
+            </lightning-slider>
+            <lightning-input-rich-text
+                label="Review:"
+                label-visible
+                value={review}
+                onchange={onReviewChange}
+                disabled-categories="FORMAT-FONT">
+            </lightning-input-rich-text>
+			<div class="slds-text-align_center slds-var-m-top_medium" >
+				<lightning-button variant="brand" label="Save" onclick={onSave} class="slds-var-m-right_x-small"></lightning-button>
+				<lightning-button label="Cancel"></lightning-button>
+			</div>
+		</form>
+	</lightning-card>
+</template>
