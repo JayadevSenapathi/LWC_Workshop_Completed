@@ -10,21 +10,33 @@
                 placeholder="Select an Instructor"
                 options={instructors}
                 value={instructorId}
-                onchange={onInstructorChange}>
+                onchange={onInstructorChange}
+                class="validateMe"
+                required
+                message-when-value-missing="Please select an instructor"
+                onblur={onBlur}>
             </lightning-combobox>
             <lightning-input
                 type="text"
                 name="locationName"
                 label="Location Name"
                 onchange={onLocationNameChange}
-                value={locationName}>
+                value={locationName}
+                class="validateMe"
+                required
+                message-when-value-missing="Please select an location"
+                onblur={onBlur}>
             </lightning-input>
             <lightning-input
                 type="date"
                 name="dateVisited"
                 label="Date Visited"
                 onchange={onDateVisitedChange}
-                value={dateVisited}>
+                value={dateVisited}
+                class="validateMe"
+                required
+                message-when-value-missing="Please select an date"
+                onblur={onBlur}>
             </lightning-input>
             <lightning-radio-group
                 type="button"
@@ -32,7 +44,11 @@
                 label="Review of:"
                 options={reviewTypes}
                 onchange={onReviewTypeChange}
-                value={reviewType}>
+                value={reviewType}
+                class="validateMe"
+                required
+                message-when-value-missing="Please select an review type"
+                onblur={onBlur}>
             </lightning-radio-group>
             <lightning-slider
                 label="Quality Rating"
@@ -51,7 +67,13 @@
                 disabled-categories="FORMAT-FONT">
             </lightning-input-rich-text>
 			<div class="slds-text-align_center slds-var-m-top_medium" >
-				<lightning-button variant="brand" label="Save" onclick={onSave} class="slds-var-m-right_x-small"></lightning-button>
+				<lightning-button
+                    variant="brand"
+                    label="Save"
+                    onclick={onSave}
+                    class="slds-var-m-right_x-small"
+                    disabled={saveButtonDisabled}>
+                </lightning-button>
 				<lightning-button label="Cancel"></lightning-button>
 			</div>
 		</form>
